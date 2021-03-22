@@ -179,13 +179,13 @@ def tf_augmentor(out_size,
             identity = tf.constant([1, 0, 0, 0, 1, 0, 0, 0], dtype=tf.float32)
             if rotation_range > 0:
                 angle_rad = rotation_range / 180 * np.pi
-                angles = tf.random_uniform([batch_size], -angle_rad, angle_rad)
+                angles = tf.random.uniform([batch_size], -angle_rad, angle_rad)
                 transforms += [tf.contrib.image.angles_to_projective_transforms(angles, intermediate_size[0], intermediate_size[1])]
 
             if crop_probability > 0:
-                crop_pct = tf.random_uniform([batch_size], min_crop_percent, max_crop_percent)
-                left = tf.random_uniform([batch_size], 0, intermediate_size[0] * (1.0 - crop_pct))
-                top = tf.random_uniform([batch_size], 0, intermediate_size[1] * (1.0 - crop_pct))
+                crop_pct = tf.random.uniform([batch_size], min_crop_percent, max_crop_percent)
+                left = tf.random.uniform([batch_size], 0, intermediate_size[0] * (1.0 - crop_pct))
+                top = tf.random.uniform([batch_size], 0, intermediate_size[1] * (1.0 - crop_pct))
                 crop_transform = tf.stack([
                       crop_pct,
                       tf.zeros([batch_size]), top,
@@ -193,7 +193,7 @@ def tf_augmentor(out_size,
                       tf.zeros([batch_size]),
                       tf.zeros([batch_size])
                   ], 1)
-                coin = tf.less(tf.random_uniform([batch_size], 0, 1.0), crop_probability)
+                coin = tf.less(tf.random.uniform([batch_size], 0, 1.0), crop_probability)
                 transforms += [tf.where(coin, crop_transform, tf.tile(tf.expand_dims(identity, 0), [batch_size, 1]))]
             if len(transforms)>0:
                 X = tf.contrib.image.transform(X,
