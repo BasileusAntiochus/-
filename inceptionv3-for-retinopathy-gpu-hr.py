@@ -16,10 +16,10 @@
 
 
 # copy the weights and configurations for the pre-trained models
-get_ipython().system('mkdir ~/.keras')
-get_ipython().system('mkdir ~/.keras/models')
-get_ipython().system('cp ../input/keras-pretrained-models/*notop* ~/.keras/models/')
-get_ipython().system('cp ../input/keras-pretrained-models/imagenet_class_index.json ~/.keras/models/')
+# get_ipython().system('mkdir ~/.keras')
+# get_ipython().system('mkdir ~/.keras/models')
+# get_ipython().system('cp ../input/keras-pretrained-models/*notop* ~/.keras/models/')
+# get_ipython().system('cp ../input/keras-pretrained-models/imagenet_class_index.json ~/.keras/models/')
 
 
 # In[2]:
@@ -33,7 +33,7 @@ from skimage.io import imread
 import os
 from glob import glob
 # not needed in Kaggle, but required in Jupyter
-get_ipython().run_line_magic('matplotlib', 'inline')
+# get_ipython().run_line_magic('matplotlib', 'inline')
 
 
 # In[3]:
