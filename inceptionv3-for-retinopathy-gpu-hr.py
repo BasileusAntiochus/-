@@ -198,9 +198,11 @@ def tf_augmentor(out_size,
                       tf.contrib.image.compose_transforms(*transforms),
                       interpolation='BILINEAR') # or 'NEAREST'
             if intermediate_trans=='scale':
-                X = tf.image.resize_images(X, out_size)
+                #X = tf.image.resize_images(X, out_size)
+                X = tf.image.resize(X, out_size)
             elif intermediate_trans=='crop':
-                X = tf.image.resize_image_with_crop_or_pad(X, out_size[0], out_size[1])
+                #X = tf.image.resize_image_with_crop_or_pad(X, out_size[0], out_size[1])
+                X = tf.image.resize_with_crop_or_pad(X, out_size[0], out_size[1])
             else:
                 raise ValueError('Invalid Operation {}'.format(intermediate_trans))
             return X, y
