@@ -182,7 +182,7 @@ def tf_augmentor(out_size,
                 angle_rad = rotation_range / 180 * np.pi
                 angles = tf.random.uniform([batch_size], -angle_rad, angle_rad)
                 #transforms += [tf.contrib.image.angles_to_projective_transforms(angles, intermediate_size[0], intermediate_size[1])]
-                transforms += [tfa.image.angles_to_projective_transforms(angles, intermediate_size[0],intermediate_size[1])]
+                transforms += [tfa.image.transform_ops.angles_to_projective_transforms(angles, intermediate_size[0],intermediate_size[1])]
 
             if crop_probability > 0:
                 crop_pct = tf.random.uniform([batch_size], min_crop_percent, max_crop_percent)
