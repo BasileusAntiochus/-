@@ -39,7 +39,7 @@ from glob import glob
 # In[3]:
 
 
-base_image_dir = os.path.join('..', 'input', 'diabetic-retinopathy-detection')
+base_image_dir = "/data/xh_data/9EyePACS/diabetic-retinopathy-detection/code"
 retina_df = pd.read_csv(os.path.join(base_image_dir, 'trainLabels.csv'))
 retina_df['PatientId'] = retina_df['image'].map(lambda x: x.split('_')[0])
 retina_df['path'] = retina_df['image'].map(lambda x: os.path.join(base_image_dir,
