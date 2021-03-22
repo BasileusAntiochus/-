@@ -235,7 +235,9 @@ def flow_from_dataframe(idg,
         for i in range(max(in_len//32,1)):
             # NOTE: if we loop here it is 'thread-safe-ish' if we loop on the outside it is completely unsafe
             #yield K.get_session().run(next_batch)
-            yield tf.compat.v1.keras.backend.get_session().run(next_batch)
+            #yield tf.compat.v1.keras.backend.get_session().run(next_batch)
+            with tf.compat.v1.Session() as sess:
+                sess.run(next_batch)
 
 
 # In[36]:
