@@ -198,9 +198,14 @@ def tf_augmentor(out_size,
                 coin = tf.less(tf.random.uniform([batch_size], 0, 1.0), crop_probability)
                 transforms += [tf.where(coin, crop_transform, tf.tile(tf.expand_dims(identity, 0), [batch_size, 1]))]
             if len(transforms)>0:
-                X = tf.contrib.image.transform(X,
-                      tf.contrib.image.compose_transforms(*transforms),
-                      interpolation='BILINEAR') # or 'NEAREST'
+                # X = tf.contrib.image.transform(X,
+                #       tf.contrib.image.compose_transforms(*transforms),
+                #       interpolation='BILINEAR') # or 'NEAREST'
+                X = tfa.image.transform(
+                    X,
+                    tfa.image.compose_transforms(*transforms),
+
+                )
             if intermediate_trans=='scale':
                 #X = tf.image.resize_images(X, out_size)
                 X = tf.image.resize(X, out_size)
