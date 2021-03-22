@@ -113,7 +113,8 @@ def tf_image_loader(out_size,
             with tf.name_scope('input'):
                 #X = tf.image.decode_png(tf.read_file(X), channels = 3 if color_mode == 'rgb' else 0)
                 X = tf.image.decode_png(tf.io.read_file(X), channels = 3 if color_mode == 'rgb' else 0)
-                X = tf.image.resize_images(X, out_size)
+                #X = tf.image.resize_images(X, out_size)
+                X = tf.image.resize(X, out_size)
             with tf.name_scope('augmentation'):
                 if horizontal_flip:
                     X = tf.image.random_flip_left_right(X)
