@@ -97,7 +97,7 @@ import tensorflow as tf
 from keras import backend as K
 from keras.applications.inception_v3 import preprocess_input
 import numpy as np
-K.set_session
+#K.set_session
 
 IMG_SIZE = (512, 512) # slightly smaller than vgg16 normally expects
 def tf_image_loader(out_size, 
@@ -234,7 +234,8 @@ def flow_from_dataframe(idg,
         next_batch = tf.compat.v1.data.make_one_shot_iterator(idg(files_ds))
         for i in range(max(in_len//32,1)):
             # NOTE: if we loop here it is 'thread-safe-ish' if we loop on the outside it is completely unsafe
-            yield K.get_session().run(next_batch)
+            #yield K.get_session().run(next_batch)
+            yield tf.compat.v1.keras.backend.get_session().run(next_batch)
 
 
 # In[36]:
