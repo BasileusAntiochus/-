@@ -39,7 +39,7 @@ from glob import glob
 # In[3]:
 
 
-base_image_dir = "/data/xh_data/9EyePACS/diabetic-retinopathy-detection/code"
+base_image_dir = "/data/xh_data/9EyePACS/diabetic-retinopathy-detection/code/train"
 retina_df = pd.read_csv(os.path.join(base_image_dir, 'trainLabels.csv'))
 retina_df['PatientId'] = retina_df['image'].map(lambda x: x.split('_')[0])
 retina_df['path'] = retina_df['image'].map(lambda x: os.path.join(base_image_dir,
@@ -52,7 +52,7 @@ retina_df['level_cat'] = retina_df['level'].map(lambda x: to_categorical(x, 1+re
 
 retina_df.dropna(inplace = True)
 retina_df = retina_df[retina_df['exists']]
-retina_df.sample(3)
+print(retina_df.sample(3))
 
 
 # # Examine the distribution of eye and severity
