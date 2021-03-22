@@ -97,6 +97,8 @@ import tensorflow as tf
 from keras import backend as K
 from keras.applications.inception_v3 import preprocess_input
 import numpy as np
+K.set_session
+
 IMG_SIZE = (512, 512) # slightly smaller than vgg16 normally expects
 def tf_image_loader(out_size, 
                       horizontal_flip = True, 
