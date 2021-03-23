@@ -203,7 +203,7 @@ def tf_augmentor(out_size,
                 #       interpolation='BILINEAR') # or 'NEAREST'
                 X = tfa.image.transform(
                     X,
-                    tfa.image.transform_ops.compose_transforms(*transforms)
+                    tfa.image.transform_ops.compose_transforms(transforms)
 
                 )
             if intermediate_trans=='scale':
