@@ -102,15 +102,15 @@ import numpy as np
 
 IMG_SIZE = (512, 512) # slightly smaller than vgg16 normally expects
 def tf_image_loader(out_size, 
-                      horizontal_flip = True, 
-                      vertical_flip = False, 
-                     random_brightness = True,
-                     random_contrast = True,
+                    horizontal_flip = True,
+                    vertical_flip = False,
+                    random_brightness = True,
+                    random_contrast = True,
                     random_saturation = True,
                     random_hue = True,
-                      color_mode = 'rgb',
-                       preproc_func = preprocess_input,
-                       on_batch = False):
+                    color_mode = 'rgb',
+                    preproc_func = preprocess_input,
+                    on_batch = False):
     def _func(X):
         with tf.name_scope('image_augmentation'):
             with tf.name_scope('input'):
@@ -145,20 +145,20 @@ def tf_image_loader(out_size,
     
 def tf_augmentor(out_size,
                 intermediate_size = (640, 640),
-                 intermediate_trans = 'crop',
-                 batch_size = 16,
-                   horizontal_flip = True, 
-                  vertical_flip = False, 
-                 random_brightness = True,
-                 random_contrast = True,
-                 random_saturation = True,
-                    random_hue = True,
-                  color_mode = 'rgb',
-                   preproc_func = preprocess_input,
-                   min_crop_percent = 0.001,
-                   max_crop_percent = 0.005,
-                   crop_probability = 0.5,
-                   rotation_range = 10):
+                intermediate_trans = 'crop',
+                batch_size = 16,
+                horizontal_flip = True,
+                vertical_flip = False,
+                random_brightness = True,
+                random_contrast = True,
+                random_saturation = True,
+                random_hue = True,
+                color_mode = 'rgb',
+                preproc_func = preprocess_input,
+                min_crop_percent = 0.001,
+                max_crop_percent = 0.005,
+                crop_probability = 0.5,
+                rotation_range = 10):
     
     load_ops = tf_image_loader(out_size = intermediate_size, 
                                horizontal_flip=horizontal_flip, 
@@ -249,11 +249,11 @@ def flow_from_dataframe(idg,
             # NOTE: if we loop here it is 'thread-safe-ish' if we loop on the outside it is completely unsafe
             #yield K.get_session().run(next_batch)
             print(i)
-            yield tf.compat.v1.keras.backend.get_session().run(tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()))
+            #yield tf.compat.v1.keras.backend.get_session().run(tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()))
             #yield tf.compat.v1.keras.backend.get_session().run(next_batch)
             # with tf.compat.v1.Session() as sess:
             #     sess.run(next_batch)
-
+            yield tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat())
 
 # In[36]:
 
@@ -263,24 +263,24 @@ core_idg = tf_augmentor(out_size = IMG_SIZE,
                         color_mode = 'rgb', 
                         vertical_flip = True,
                         crop_probability=0.0, # crop doesn't work yet
-                        batch_size = batch_size) 
+                        batch_size = batch_size)
 valid_idg = tf_augmentor(out_size = IMG_SIZE, color_mode = 'rgb', 
-                         crop_probability=0.0, 
-                         horizontal_flip = False, 
-                         vertical_flip = False, 
-                         random_brightness = False,
-                         random_contrast = False,
-                         random_saturation = False,
-                         random_hue = False,
-                         rotation_range = 0,
+                        crop_probability=0.0,
+                        horizontal_flip = False,
+                        vertical_flip = False,
+                        random_brightness = False,
+                        random_contrast = False,
+                        random_saturation = False,
+                        random_hue = False,
+                        rotation_range = 0,
                         batch_size = batch_size)
 
 train_gen = flow_from_dataframe(core_idg, train_df, 
-                             path_col = 'path',
+                            path_col = 'path',
                             y_col = 'level_cat')
 
 valid_gen = flow_from_dataframe(valid_idg, valid_df, 
-                             path_col = 'path',
+                            path_col = 'path',
                             y_col = 'level_cat') # we can use much larger batches for evaluation
 
 
