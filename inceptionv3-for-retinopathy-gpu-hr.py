@@ -228,7 +228,7 @@ def tf_augmentor(out_size,
 
 # In[35]:
 
-
+print("flow_from_dataframe")
 def flow_from_dataframe(idg, 
                         in_df, 
                         path_col,
@@ -248,7 +248,7 @@ def flow_from_dataframe(idg,
         for i in range(max(in_len//32,1)):
             # NOTE: if we loop here it is 'thread-safe-ish' if we loop on the outside it is completely unsafe
             #yield K.get_session().run(next_batch)
-            print(i)
+            #print(i)
             #yield tf.compat.v1.keras.backend.get_session().run(tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()))
             #yield tf.compat.v1.keras.backend.get_session().run(next_batch)
             # with tf.compat.v1.Session() as sess:
@@ -385,22 +385,22 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 
 # In[14]:
 
-import os
-os.system('rm -rf ~/.keras # clean up before starting training')
+# import os
+# os.system('rm -rf ~/.keras # clean up before starting training')
 
 
 # In[39]:
 
 
 retina_model.fit_generator(train_gen, 
-                           steps_per_epoch = train_df.shape[0]//batch_size,
-                           validation_data = valid_gen, 
-                           validation_steps = valid_df.shape[0]//batch_size,
-                              epochs = 25, 
-                              callbacks = callbacks_list,
-                             workers = 0, # tf-generators are not thread-safe
-                             use_multiprocessing=False, 
-                             max_queue_size = 0
+                            steps_per_epoch = train_df.shape[0]//batch_size,
+                            validation_data = valid_gen,
+                            validation_steps = valid_df.shape[0]//batch_size,
+                            epochs = 25,
+                            callbacks = callbacks_list,
+                            workers = 0, # tf-generators are not thread-safe
+                            use_multiprocessing=False,
+                            max_queue_size = 0
                             )
 
 
@@ -416,7 +416,7 @@ retina_model.save('full_retina_model.h5')
 
 
 ##### create one fixed dataset for evaluating
-from tqdm import tqdm_notebook
+from tqdm import tqdm
 # fresh valid gen
 valid_gen = flow_from_dataframe(valid_idg, valid_df, 
                              path_col = 'path',
@@ -425,7 +425,7 @@ vbatch_count = (valid_df.shape[0]//batch_size-1)
 out_size = vbatch_count*batch_size
 test_X = np.zeros((out_size,)+t_x.shape[1:], dtype = np.float32)
 test_Y = np.zeros((out_size,)+t_y.shape[1:], dtype = np.float32)
-for i, (c_x, c_y) in zip(tqdm_notebook(range(vbatch_count)), 
+for i, (c_x, c_y) in zip(tqdm(range(vbatch_count)),
                          valid_gen):
     j = i*batch_size
     test_X[j:(j+c_x.shape[0])] = c_x
