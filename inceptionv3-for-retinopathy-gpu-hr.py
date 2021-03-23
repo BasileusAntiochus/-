@@ -304,6 +304,7 @@ valid_gen = flow_from_dataframe(valid_idg, valid_df,
 # In[38]:
 
 
+print(next(train_gen))
 t_x, t_y = next(train_gen)
 # fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
 # for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
