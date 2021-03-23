@@ -303,7 +303,7 @@ valid_gen = flow_from_dataframe(valid_idg, valid_df,
 # In[38]:
 
 
-# t_x, t_y = next(train_gen)
+t_x, t_y = next(train_gen)
 # fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
 # for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
 #     c_ax.imshow(np.clip(c_x*127+127, 0, 255).astype(np.uint8))
@@ -499,16 +499,16 @@ sns.heatmap(confusion_matrix(test_Y_cat, pred_Y_cat),
 
 
 
-from sklearn.metrics import roc_curve, roc_auc_score
-sick_vec = test_Y_cat>0
-sick_score = np.sum(pred_Y[:,1:],1)
-fpr, tpr, _ = roc_curve(sick_vec, sick_score)
-fig, ax1 = plt.subplots(1,1, figsize = (6, 6), dpi = 150)
-ax1.plot(fpr, tpr, 'b.-', label = 'Model Prediction (AUC: %2.2f)' % roc_auc_score(sick_vec, sick_score))
-ax1.plot(fpr, fpr, 'g-', label = 'Random Guessing')
-ax1.legend()
-ax1.set_xlabel('False Positive Rate')
-ax1.set_ylabel('True Positive Rate');
+# from sklearn.metrics import roc_curve, roc_auc_score
+# sick_vec = test_Y_cat>0
+# sick_score = np.sum(pred_Y[:,1:],1)
+# fpr, tpr, _ = roc_curve(sick_vec, sick_score)
+# fig, ax1 = plt.subplots(1,1, figsize = (6, 6), dpi = 150)
+# ax1.plot(fpr, tpr, 'b.-', label = 'Model Prediction (AUC: %2.2f)' % roc_auc_score(sick_vec, sick_score))
+# ax1.plot(fpr, fpr, 'g-', label = 'Random Guessing')
+# ax1.legend()
+# ax1.set_xlabel('False Positive Rate')
+# ax1.set_ylabel('True Positive Rate');
 
 
 # In[47]:
