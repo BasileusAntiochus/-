@@ -289,12 +289,12 @@ valid_gen = flow_from_dataframe(valid_idg, valid_df,
 # In[37]:
 
 
-t_x, t_y = next(valid_gen)
-fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
-for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
-    c_ax.imshow(np.clip(c_x*127+127, 0, 255).astype(np.uint8))
-    c_ax.set_title('Severity {}'.format(np.argmax(c_y, -1)))
-    c_ax.axis('off')
+# t_x, t_y = next(valid_gen)
+# fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
+# for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
+#     c_ax.imshow(np.clip(c_x*127+127, 0, 255).astype(np.uint8))
+#     c_ax.set_title('Severity {}'.format(np.argmax(c_y, -1)))
+#     c_ax.axis('off')
 
 
 # # Training Set
@@ -303,12 +303,12 @@ for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
 # In[38]:
 
 
-t_x, t_y = next(train_gen)
-fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
-for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
-    c_ax.imshow(np.clip(c_x*127+127, 0, 255).astype(np.uint8))
-    c_ax.set_title('Severity {}'.format(np.argmax(c_y, -1)))
-    c_ax.axis('off')
+# t_x, t_y = next(train_gen)
+# fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
+# for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
+#     c_ax.imshow(np.clip(c_x*127+127, 0, 255).astype(np.uint8))
+#     c_ax.set_title('Severity {}'.format(np.argmax(c_y, -1)))
+#     c_ax.axis('off')
 
 
 # # Attention Model
