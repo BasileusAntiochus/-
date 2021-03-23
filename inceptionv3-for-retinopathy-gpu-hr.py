@@ -249,7 +249,7 @@ def flow_from_dataframe(idg,
             # NOTE: if we loop here it is 'thread-safe-ish' if we loop on the outside it is completely unsafe
             #yield K.get_session().run(next_batch)
             print(i)
-            yield tf.compat.v1.keras.backend.get_session().run(tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()).get_next())
+            yield tf.compat.v1.keras.backend.get_session().run(tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()))
             #yield tf.compat.v1.keras.backend.get_session().run(next_batch)
             # with tf.compat.v1.Session() as sess:
             #     sess.run(next_batch)
