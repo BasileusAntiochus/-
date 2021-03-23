@@ -243,13 +243,14 @@ def flow_from_dataframe(idg,
             files_ds = files_ds.shuffle(in_len) # shuffle the whole dataset
         
         #next_batch = idg(files_ds).repeat().make_one_shot_iterator().get_next()
-        next_batch = tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()).get_next()
+        # next_batch = tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()).get_next()
         print(next_batch)
         for i in range(max(in_len//32,1)):
             # NOTE: if we loop here it is 'thread-safe-ish' if we loop on the outside it is completely unsafe
             #yield K.get_session().run(next_batch)
             print(i)
-            yield tf.compat.v1.keras.backend.get_session().run(next_batch)
+            yield tf.compat.v1.keras.backend.get_session().run(tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()).get_next())
+            #yield tf.compat.v1.keras.backend.get_session().run(next_batch)
             # with tf.compat.v1.Session() as sess:
             #     sess.run(next_batch)
 
