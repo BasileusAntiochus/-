@@ -385,8 +385,8 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 
 # In[14]:
 
-# import os
-# os.system('rm -rf ~/.keras # clean up before starting training')
+import os
+os.system('rm -rf ~/.keras # clean up before starting training')
 
 
 # In[39]:
