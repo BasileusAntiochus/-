@@ -201,6 +201,11 @@ def tf_augmentor(out_size,
                 # X = tf.contrib.image.transform(X,
                 #       tf.contrib.image.compose_transforms(*transforms),
                 #       interpolation='BILINEAR') # or 'NEAREST'
+                # X = tfa.image.transform(
+                #     X,
+                #     tfa.image.transform_ops.compose_transforms(transforms)
+                #
+                # )
                 X = tfa.image.transform(
                     X,
                     tfa.image.transform_ops.compose_transforms(transforms)
@@ -238,7 +243,7 @@ def flow_from_dataframe(idg,
             files_ds = files_ds.shuffle(in_len) # shuffle the whole dataset
         
         #next_batch = idg(files_ds).repeat().make_one_shot_iterator().get_next()
-        next_batch = tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat())
+        next_batch = tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()).get_next()
         for i in range(max(in_len//32,1)):
             # NOTE: if we loop here it is 'thread-safe-ish' if we loop on the outside it is completely unsafe
             #yield K.get_session().run(next_batch)
