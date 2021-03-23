@@ -385,8 +385,8 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 
 # In[14]:
 
-import os
-os.system('rm -rf ~/.keras # clean up before starting training')
+# import os
+# os.system('rm -rf ~/.keras # clean up before starting training')
 
 
 # In[39]:
@@ -416,7 +416,7 @@ retina_model.save('full_retina_model.h5')
 
 
 ##### create one fixed dataset for evaluating
-from tqdm import tqdm
+from tqdm import tqdm_notebook
 # fresh valid gen
 valid_gen = flow_from_dataframe(valid_idg, valid_df, 
                              path_col = 'path',
@@ -425,7 +425,7 @@ vbatch_count = (valid_df.shape[0]//batch_size-1)
 out_size = vbatch_count*batch_size
 test_X = np.zeros((out_size,)+t_x.shape[1:], dtype = np.float32)
 test_Y = np.zeros((out_size,)+t_y.shape[1:], dtype = np.float32)
-for i, (c_x, c_y) in zip(tqdm(range(vbatch_count)),
+for i, (c_x, c_y) in zip(tqdm_notebook(range(vbatch_count)),
                          valid_gen):
     j = i*batch_size
     test_X[j:(j+c_x.shape[0])] = c_x
