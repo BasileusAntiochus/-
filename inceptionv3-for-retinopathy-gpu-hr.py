@@ -304,7 +304,7 @@ valid_gen = flow_from_dataframe(valid_idg, valid_df,
 # In[38]:
 
 
-print(next(train_gen))
+#print(next(train_gen))
 t_x, t_y = next(train_gen)
 # fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
 # for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
@@ -385,8 +385,8 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 
 # In[14]:
 
-
-get_ipython().system('rm -rf ~/.keras # clean up before starting training')
+import os
+os.system('rm -rf ~/.keras # clean up before starting training')
 
 
 # In[39]:
