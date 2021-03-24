@@ -391,7 +391,7 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 
 # In[39]:
 
-
+print("retina_model.fit_generator")
 retina_model.fit_generator(train_gen, 
                             steps_per_epoch = train_df.shape[0]//batch_size,
                             validation_data = valid_gen,
@@ -406,7 +406,7 @@ retina_model.fit_generator(train_gen,
 
 # In[40]:
 
-
+print("# load the best version of the model")
 # load the best version of the model
 retina_model.load_weights(weight_path)
 retina_model.save('full_retina_model.h5')
@@ -414,7 +414,7 @@ retina_model.save('full_retina_model.h5')
 
 # In[41]:
 
-
+print("##### create one fixed dataset for evaluating")
 ##### create one fixed dataset for evaluating
 from tqdm import tqdm_notebook
 # fresh valid gen
@@ -437,7 +437,7 @@ for i, (c_x, c_y) in zip(tqdm_notebook(range(vbatch_count)),
 
 # In[42]:
 
-
+print("# get the attention layer since it is the only one with a single output dim")
 # get the attention layer since it is the only one with a single output dim
 for attn_layer in retina_model.layers:
     c_shape = attn_layer.get_output_shape_at(0)
