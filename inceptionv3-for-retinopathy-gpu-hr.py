@@ -423,7 +423,7 @@ print("retina_model.fit_generator")
 
 retina_model.fit(train_gen,
                 steps_per_epoch = train_df.shape[0]//batch_size,
-                epochs = 25,
+                epochs = 10,
                     )
 # In[40]:
 
