@@ -258,7 +258,8 @@ def flow_from_dataframe(idg,
 # In[36]:
 
 
-batch_size = 48
+#batch_size = 48
+batch_size = 6
 core_idg = tf_augmentor(out_size = IMG_SIZE, 
                         color_mode = 'rgb', 
                         vertical_flip = True,
