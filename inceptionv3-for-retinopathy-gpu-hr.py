@@ -421,9 +421,20 @@ print("retina_model.fit_generator")
 #                     max_queue_size = 0
 #                     )
 
+# retina_model.fit(train_gen,
+#                 steps_per_epoch = train_df.shape[0]//batch_size,
+#                 epochs = 10,
+#                     )
+
 retina_model.fit(train_gen,
-                steps_per_epoch = train_df.shape[0]//batch_size,
-                epochs = 10,
+                    steps_per_epoch = train_df.shape[0]//batch_size,
+                    validation_data = valid_gen,
+                    validation_steps = valid_df.shape[0]//batch_size,
+                    epochs = 5,
+                    callbacks = callbacks_list,
+                    workers = 0, # tf-generators are not thread-safe
+                    use_multiprocessing=False,
+                    max_queue_size = 0
                     )
 # In[40]:
 
@@ -458,38 +469,38 @@ for i, (c_x, c_y) in zip(tqdm_notebook(range(vbatch_count)),
 
 # In[42]:
 
-print("# get the attention layer since it is the only one with a single output dim")
-# get the attention layer since it is the only one with a single output dim
-for attn_layer in retina_model.layers:
-    c_shape = attn_layer.get_output_shape_at(0)
-    if len(c_shape)==4:
-        if c_shape[-1]==1:
-            print(attn_layer)
-            break
+# print("# get the attention layer since it is the only one with a single output dim")
+# # get the attention layer since it is the only one with a single output dim
+# for attn_layer in retina_model.layers:
+#     c_shape = attn_layer.get_output_shape_at(0)
+#     if len(c_shape)==4:
+#         if c_shape[-1]==1:
+#             print(attn_layer)
+#             break
 
 
 # In[43]:
 
 
-import keras.backend as K
-rand_idx = np.random.choice(range(len(test_X)), size = 6)
-attn_func = K.function(inputs = [retina_model.get_input_at(0), K.learning_phase()],
-           outputs = [attn_layer.get_output_at(0)]
-          )
-fig, m_axs = plt.subplots(len(rand_idx), 2, figsize = (8, 4*len(rand_idx)))
-[c_ax.axis('off') for c_ax in m_axs.flatten()]
-for c_idx, (img_ax, attn_ax) in zip(rand_idx, m_axs):
-    cur_img = test_X[c_idx:(c_idx+1)]
-    attn_img = attn_func([cur_img, 0])[0]
-    img_ax.imshow(np.clip(cur_img[0,:,:,:]*127+127, 0, 255).astype(np.uint8))
-    attn_ax.imshow(attn_img[0, :, :, 0]/attn_img[0, :, :, 0].max(), cmap = 'viridis', 
-                   vmin = 0, vmax = 1, 
-                   interpolation = 'lanczos')
-    real_cat = np.argmax(test_Y[c_idx, :])
-    img_ax.set_title('Eye Image\nCat:%2d' % (real_cat))
-    pred_cat = retina_model.predict(cur_img)
-    attn_ax.set_title('Attention Map\nPred:%2.2f%%' % (100*pred_cat[0,real_cat]))
-fig.savefig('attention_map.png', dpi = 300)
+# import keras.backend as K
+# rand_idx = np.random.choice(range(len(test_X)), size = 6)
+# attn_func = K.function(inputs = [retina_model.get_input_at(0), K.learning_phase()],
+#            outputs = [attn_layer.get_output_at(0)]
+#           )
+# fig, m_axs = plt.subplots(len(rand_idx), 2, figsize = (8, 4*len(rand_idx)))
+# [c_ax.axis('off') for c_ax in m_axs.flatten()]
+# for c_idx, (img_ax, attn_ax) in zip(rand_idx, m_axs):
+#     cur_img = test_X[c_idx:(c_idx+1)]
+#     attn_img = attn_func([cur_img, 0])[0]
+#     img_ax.imshow(np.clip(cur_img[0,:,:,:]*127+127, 0, 255).astype(np.uint8))
+#     attn_ax.imshow(attn_img[0, :, :, 0]/attn_img[0, :, :, 0].max(), cmap = 'viridis',
+#                    vmin = 0, vmax = 1,
+#                    interpolation = 'lanczos')
+#     real_cat = np.argmax(test_Y[c_idx, :])
+#     img_ax.set_title('Eye Image\nCat:%2d' % (real_cat))
+#     pred_cat = retina_model.predict(cur_img)
+#     attn_ax.set_title('Attention Map\nPred:%2.2f%%' % (100*pred_cat[0,real_cat]))
+# fig.savefig('attention_map.png', dpi = 300)
 
 
 # # Evaluate the results
@@ -498,21 +509,21 @@ fig.savefig('attention_map.png', dpi = 300)
 # In[44]:
 
 
-from sklearn.metrics import accuracy_score, classification_report
-pred_Y = retina_model.predict(test_X, batch_size = 32, verbose = True)
-pred_Y_cat = np.argmax(pred_Y, -1)
-test_Y_cat = np.argmax(test_Y, -1)
-print('Accuracy on Test Data: %2.2f%%' % (accuracy_score(test_Y_cat, pred_Y_cat)))
-print(classification_report(test_Y_cat, pred_Y_cat))
+# from sklearn.metrics import accuracy_score, classification_report
+# pred_Y = retina_model.predict(test_X, batch_size = 32, verbose = True)
+# pred_Y_cat = np.argmax(pred_Y, -1)
+# test_Y_cat = np.argmax(test_Y, -1)
+# print('Accuracy on Test Data: %2.2f%%' % (accuracy_score(test_Y_cat, pred_Y_cat)))
+# print(classification_report(test_Y_cat, pred_Y_cat))
 
 
 # In[45]:
 
 
-import seaborn as sns
-from sklearn.metrics import confusion_matrix
-sns.heatmap(confusion_matrix(test_Y_cat, pred_Y_cat), 
-            annot=True, fmt="d", cbar = False, cmap = plt.cm.Blues, vmax = test_X.shape[0]//16)
+# import seaborn as sns
+# from sklearn.metrics import confusion_matrix
+# sns.heatmap(confusion_matrix(test_Y_cat, pred_Y_cat),
+#             annot=True, fmt="d", cbar = False, cmap = plt.cm.Blues, vmax = test_X.shape[0]//16)
 
 
 # # ROC Curve for healthy vs sick
@@ -536,14 +547,14 @@ sns.heatmap(confusion_matrix(test_Y_cat, pred_Y_cat),
 
 # In[47]:
 
-
-fig, m_axs = plt.subplots(2, 4, figsize = (32, 20))
-for (idx, c_ax) in enumerate(m_axs.flatten()):
-    c_ax.imshow(np.clip(test_X[idx]*127+127,0 , 255).astype(np.uint8), cmap = 'bone')
-    c_ax.set_title('Actual Severity: {}\n{}'.format(test_Y_cat[idx], 
-                                                           '\n'.join(['Predicted %02d (%04.1f%%): %s' % (k, 100*v, '*'*int(10*v)) for k, v in sorted(enumerate(pred_Y[idx]), key = lambda x: -1*x[1])])), loc='left')
-    c_ax.axis('off')
-fig.savefig('trained_img_predictions.png', dpi = 300)
+#
+# fig, m_axs = plt.subplots(2, 4, figsize = (32, 20))
+# for (idx, c_ax) in enumerate(m_axs.flatten()):
+#     c_ax.imshow(np.clip(test_X[idx]*127+127,0 , 255).astype(np.uint8), cmap = 'bone')
+#     c_ax.set_title('Actual Severity: {}\n{}'.format(test_Y_cat[idx],
+#                                                            '\n'.join(['Predicted %02d (%04.1f%%): %s' % (k, 100*v, '*'*int(10*v)) for k, v in sorted(enumerate(pred_Y[idx]), key = lambda x: -1*x[1])])), loc='left')
+#     c_ax.axis('off')
+# fig.savefig('trained_img_predictions.png', dpi = 300)
 
 
 # In[ ]:
