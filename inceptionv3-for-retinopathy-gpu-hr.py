@@ -431,7 +431,7 @@ retina_model.fit(train_gen,
                     validation_data = valid_gen,
                     validation_steps = valid_df.shape[0]//batch_size,
                     epochs = 5,
-                    callbacks = callbacks_list,
+                    #callbacks = callbacks_list,
                     workers = 0, # tf-generators are not thread-safe
                     use_multiprocessing=False,
                     max_queue_size = 0
