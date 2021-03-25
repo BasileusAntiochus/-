@@ -369,7 +369,7 @@ retina_model.summary()
 
 # In[13]:
 
-
+print("#checkpoint#")
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
 weight_path="{}_weights.best.hdf5".format('retina')
 
@@ -392,16 +392,26 @@ callbacks_list = [checkpoint, early, reduceLROnPlat]
 # In[39]:
 
 print("retina_model.fit_generator")
-retina_model.fit_generator(train_gen, 
-                            steps_per_epoch = train_df.shape[0]//batch_size,
-                            validation_data = valid_gen,
-                            validation_steps = valid_df.shape[0]//batch_size,
-                            epochs = 25,
-                            callbacks = callbacks_list,
-                            workers = 0, # tf-generators are not thread-safe
-                            use_multiprocessing=False,
-                            max_queue_size = 0
-                            )
+# retina_model.fit_generator(train_gen,
+#                             steps_per_epoch = train_df.shape[0]//batch_size,
+#                             validation_data = valid_gen,
+#                             validation_steps = valid_df.shape[0]//batch_size,
+#                             epochs = 25,
+#                             callbacks = callbacks_list,
+#                             workers = 0, # tf-generators are not thread-safe
+#                             use_multiprocessing=False,
+#                             max_queue_size = 0
+#                             )
+retina_model.fit(train_gen,
+                    steps_per_epoch = train_df.shape[0]//batch_size,
+                    validation_data = valid_gen,
+                    validation_steps = valid_df.shape[0]//batch_size,
+                    epochs = 25,
+                    callbacks = callbacks_list,
+                    workers = 0, # tf-generators are not thread-safe
+                    use_multiprocessing=False,
+                    max_queue_size = 0
+                    )
 
 
 # In[40]:
