@@ -363,6 +363,8 @@ from keras.metrics import top_k_categorical_accuracy
 def top_2_accuracy(in_gt, in_pred):
     return top_k_categorical_accuracy(in_gt, in_pred, k=2)
 
+###
+retina_model = PTModel
 retina_model.compile(optimizer = 'adam', loss = 'categorical_crossentropy',
                            metrics = ['categorical_accuracy', top_2_accuracy])
 retina_model.summary()
