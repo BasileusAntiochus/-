@@ -364,7 +364,12 @@ def top_2_accuracy(in_gt, in_pred):
     return top_k_categorical_accuracy(in_gt, in_pred, k=2)
 
 ###
-retina_model = PTModel
+retina_model = tf.keras.models.Sequential([
+  tf.keras.layers.Flatten(input_shape=(28, 28)),
+  tf.keras.layers.Dense(128, activation='relu'),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dense(t_y.shape[-1], activation='softmax')
+])
 retina_model.compile(optimizer = 'adam', loss = 'categorical_crossentropy',
                            metrics = ['categorical_accuracy', top_2_accuracy])
 retina_model.summary()
