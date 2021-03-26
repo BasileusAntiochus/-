@@ -259,7 +259,7 @@ def flow_from_dataframe(idg,
 
 
 #batch_size = 48
-batch_size = 96
+batch_size = 48
 core_idg = tf_augmentor(out_size = IMG_SIZE, 
                         color_mode = 'rgb', 
                         vertical_flip = True,
@@ -441,8 +441,9 @@ retina_model.fit(train_gen,
 
 print("# load the best version of the model")
 # load the best version of the model
-retina_model.load_weights(weight_path)
+#retina_model.load_weights(weight_path)
 retina_model.save('full_retina_model.h5')
+print("# save the best version of the model")
 
 
 # In[41]:
