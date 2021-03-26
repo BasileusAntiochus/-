@@ -38,7 +38,7 @@ from glob import glob
 
 # In[3]:
 
-
+base_dir = "/data/xh_data/9EyePACS/diabetic-retinopathy-detection/code"
 base_image_dir = "/data/xh_data/9EyePACS/diabetic-retinopathy-detection/code/train"
 retina_df = pd.read_csv(os.path.join(base_image_dir, 'trainLabels.csv'))
 retina_df['PatientId'] = retina_df['image'].map(lambda x: x.split('_')[0])
@@ -425,7 +425,8 @@ print("retina_model.fit_generator")
 #                 steps_per_epoch = train_df.shape[0]//batch_size,
 #                 epochs = 10,
 #                     )
-
+#
+retina_model.load_weights(weight_path)
 retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
                     #validation_data = valid_gen,
