@@ -426,7 +426,9 @@ print("retina_model.fit_generator")
 #                 epochs = 10,
 #                     )
 #
-retina_model.load_weights(weight_path)
+#retina_model.load_weights(weight_path)
+
+retina_model.load_weights('full_retina_model.h5')
 retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
                     #validation_data = valid_gen,
