@@ -52,7 +52,7 @@ retina_df['level_cat'] = retina_df['level'].map(lambda x: to_categorical(x, 1+re
 
 retina_df.dropna(inplace = True)
 retina_df = retina_df[retina_df['exists']]
-print(retina_df.sample(3))
+#print(retina_df.sample(3))
 
 
 # # Examine the distribution of eye and severity
@@ -259,7 +259,7 @@ def flow_from_dataframe(idg,
 
 
 #batch_size = 48
-batch_size = 192
+batch_size = 96
 core_idg = tf_augmentor(out_size = IMG_SIZE, 
                         color_mode = 'rgb', 
                         vertical_flip = True,
@@ -431,7 +431,7 @@ retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
                     #validation_data = valid_gen,
                     #validation_steps = valid_df.shape[0]//batch_size,
-                    epochs = 5,
+                    epochs = 10,
                     callbacks = callbacks_list,
                     workers = 0, # tf-generators are not thread-safe
                     use_multiprocessing=False,
