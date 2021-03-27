@@ -430,7 +430,7 @@ print("retina_model.fit_generator")
 
 #retina_model.load_weights('full_retina_model.h5')
 
-retina_model.load_weights('retina_weights.best.hdf')
+retina_model.load_weights('retina_weights.best.hdf5')
 retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
                     #validation_data = valid_gen,
