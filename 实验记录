@@ -5,3 +5,4 @@
 15/15 [==============================] - 314s 21s/step - loss: 0.9552 - categorical_accuracy: 0.6139 - top_2_accuracy: 0.8361 - lr: 0.0010
 15/15 [==============================] - 315s 21s/step - loss: 0.9412 - categorical_accuracy: 0.6194 - top_2_accuracy: 0.8514 - lr: 0.0010
 15/15 [==============================] - 318s 21s/step - loss: 0.9447 - categorical_accuracy: 0.6181 - top_2_accuracy: 0.8514 - lr: 0.0010
+15/15 [==============================] - 319s 21s/step - loss: 0.4378 - categorical_accuracy: 0.8278 - top_2_accuracy: 0.9528 - lr: 0.0010
