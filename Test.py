@@ -469,11 +469,11 @@ valid_gen = flow_from_dataframe(valid_idg, valid_df,
                              path_col = 'path',
                             y_col = 'level_cat')
 vbatch_count = (valid_df.shape[0]//batch_size-1)
-print(vbatch_count)
 out_size = vbatch_count*batch_size
 test_X = np.zeros((out_size,)+t_x.shape[1:], dtype = np.float32)
 test_Y = np.zeros((out_size,)+t_y.shape[1:], dtype = np.float32)
-for i, (c_x, c_y) in zip(tqdm.notebook.tqdm(range(vbatch_count)),
+print(vbatch_count)
+for i, (c_x, c_y) in zip(tqdm_notebook(range(vbatch_count)),
                          valid_gen):
 
     print(i)
