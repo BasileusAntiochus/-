@@ -462,7 +462,8 @@ retina_model.load_weights('full_retina_model1.h5')
 
 print("##### create one fixed dataset for evaluating")
 ##### create one fixed dataset for evaluating
-from tqdm import notebook
+from tqdm import tqdm.notebook
+
 # fresh valid gen
 valid_gen = flow_from_dataframe(valid_idg, valid_df,
                              path_col = 'path',
