@@ -452,8 +452,9 @@ retina_model.load_weights('full_retina_model1.h5')
 #retina_model = tf.keras.models.load_model('full_retina_model.h5')
 
 t_x, t_y = next(train_gen)
-loss, acc = retina_model.evaluate(t_x, t_y, verbose=2)
-print('Restored model, accuracy: {:5.2f}%'.format(100*acc))
+#loss, acc =
+retina_model.evaluate(t_x, t_y, verbose=2)
+#print('Restored model, accuracy: {:5.2f}%'.format(100*acc))
 
 print(retina_model.predict(t_x).shape)
 
