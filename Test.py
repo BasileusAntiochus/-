@@ -458,3 +458,32 @@ retina_model.evaluate(t_x, t_y, verbose=2)
 
 print(retina_model.predict(t_x).shape)
 
+# In[41]:
+
+print("##### create one fixed dataset for evaluating")
+##### create one fixed dataset for evaluating
+from tqdm import tqdm_notebook
+# fresh valid gen
+valid_gen = flow_from_dataframe(valid_idg, valid_df,
+                             path_col = 'path',
+                            y_col = 'level_cat')
+vbatch_count = (valid_df.shape[0]//batch_size-1)
+out_size = vbatch_count*batch_size
+test_X = np.zeros((out_size,)+t_x.shape[1:], dtype = np.float32)
+test_Y = np.zeros((out_size,)+t_y.shape[1:], dtype = np.float32)
+for i, (c_x, c_y) in zip(tqdm_notebook(range(vbatch_count)),
+                         valid_gen):
+    j = i*batch_size
+    test_X[j:(j+c_x.shape[0])] = c_x
+    test_Y[j:(j+c_x.shape[0])] = c_y
+
+#In[44]:
+
+from sklearn.metrics import accuracy_score, classification_report
+pred_Y = retina_model.predict(test_X, batch_size = 32, verbose = True)
+pred_Y_cat = np.argmax(pred_Y, -1)
+test_Y_cat = np.argmax(test_Y, -1)
+print('Accuracy on Test Data: %2.2f%%' % (accuracy_score(test_Y_cat, pred_Y_cat)))
+print(classification_report(test_Y_cat, pred_Y_cat))
+
+
