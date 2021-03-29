@@ -8,3 +8,59 @@
 15/15 [==============================] - 319s 21s/step - loss: 0.4378 - categorical_accuracy: 0.8278 - top_2_accuracy: 0.9528 - lr: 0.0010
 15/15 [==============================] - 315s 21s/step - loss: 0.4902 - categorical_accuracy: 0.8042 - top_2_accuracy: 0.9417 - lr: 0.0010
 15/15 [==============================] - 319s 21s/step - loss: 0.7842 - categorical_accuracy: 0.6958 - top_2_accuracy: 0.8889 - lr: 0.0010
+
+20210329
+
+新建Test.py
+错误：
+'''
+Exception ignored in: <function _RandomSeedGeneratorDeleter.__del__ at 0x7f699cd78160>
+Traceback (most recent call last):
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 3546, in __del__
+AttributeError: 'NoneType' object has no attribute 'device'
+Exception ignored in: <function _RandomSeedGeneratorDeleter.__del__ at 0x7f699cd78160>
+Traceback (most recent call last):
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 3546, in __del__
+AttributeError: 'NoneType' object has no attribute 'device'
+'''
+解决：
+https://github.com/tensorflow/tensorflow/issues/35326
+
+错误：
+(base) xh@zucc-232:/data/xh_data/9EyePACS/diabetic-retinopathy-detection/code$ python Test.py
+35126 images found of 35126 total
+Traceback (most recent call last):
+  File "Test.py", line 51, in <module>
+    from keras.utils.np_utils import to_categorical
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/keras/__init__.py", line 3, in <module>
+    from tensorflow.keras.layers.experimental.preprocessing import RandomRotation
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/__init__.py", line 41, in <module>
+    from tensorflow.python.tools import module_util as _module_util
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/__init__.py", line 74, in <module>
+    from tensorflow.python.ops.standard_ops import *
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/ops/standard_ops.py", line 26, in <module>
+    from tensorflow.python import autograph
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/autograph/__init__.py", line 35, in <module>
+    from tensorflow.python.autograph import operators
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/autograph/operators/__init__.py", line 40, in <module>
+    from tensorflow.python.autograph.operators.control_flow import for_stmt
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/autograph/operators/control_flow.py", line 67, in <module>
+    from tensorflow.python.autograph.operators import py_builtins
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/autograph/operators/py_builtins.py", line 30, in <module>
+    from tensorflow.python.data.ops import dataset_ops
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/__init__.py", line 25, in <module>
+    from tensorflow.python.data import experimental
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/experimental/__init__.py", line 92, in <module>
+    from tensorflow.python.data.experimental.ops.batching import dense_to_ragged_batch
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/experimental/ops/batching.py", line 20, in <module>
+    from tensorflow.python.data.ops import dataset_ops
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 3548
+    if self._eager_mode:
+    ^
+IndentationError: expected an indented block
+(base) xh@zucc-232:/data/xh_data/9EyePACS/diabetic-retinopathy-detection/code$
+
+问题
+Traceback (most recent call last):
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 3546, in __del__
+AttributeError: 'NoneType' object has no attribute 'device'

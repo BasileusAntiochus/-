@@ -3,8 +3,8 @@
 
 # # Overview
 # The goal is to make a nice retinopathy model by using a pretrained inception v3 as a base and retraining some modified final layers with attention
-# 
-# This can be massively improved with 
+#
+# This can be massively improved with
 # * high-resolution images
 # * better data sampling
 # * ensuring there is no leaking between training and validation sets, ```sample(replace = True)``` is real dangerous
@@ -70,8 +70,8 @@ retina_df[['level', 'eye']].hist(figsize = (10, 5))
 
 from sklearn.model_selection import train_test_split
 rr_df = retina_df[['PatientId', 'level']].drop_duplicates()
-train_ids, valid_ids = train_test_split(rr_df['PatientId'], 
-                                   test_size = 0.25, 
+train_ids, valid_ids = train_test_split(rr_df['PatientId'],
+                                   test_size = 0.25,
                                    random_state = 2018,
                                    stratify = rr_df['level'])
 raw_train_df = retina_df[retina_df['PatientId'].isin(train_ids)]
@@ -101,7 +101,7 @@ import numpy as np
 #K.set_session
 
 IMG_SIZE = (512, 512) # slightly smaller than vgg16 normally expects
-def tf_image_loader(out_size, 
+def tf_image_loader(out_size,
                     horizontal_flip = True,
                     vertical_flip = False,
                     random_brightness = True,
@@ -132,7 +132,7 @@ def tf_image_loader(out_size,
                 if random_contrast:
                     X = tf.image.random_contrast(X, lower = 0.75, upper = 1.5)
                 return preproc_func(X)
-    if on_batch: 
+    if on_batch:
         # we are meant to use it on a batch
         def _batch_func(X, y):
             return tf.map_fn(_func, X), y
@@ -140,9 +140,9 @@ def tf_image_loader(out_size,
     else:
         # we apply it to everything
         def _all_func(X, y):
-            return _func(X), y         
+            return _func(X), y
         return _all_func
-    
+
 def tf_augmentor(out_size,
                 intermediate_size = (640, 640),
                 intermediate_trans = 'crop',
@@ -159,10 +159,10 @@ def tf_augmentor(out_size,
                 max_crop_percent = 0.005,
                 crop_probability = 0.5,
                 rotation_range = 10):
-    
-    load_ops = tf_image_loader(out_size = intermediate_size, 
-                               horizontal_flip=horizontal_flip, 
-                               vertical_flip=vertical_flip, 
+
+    load_ops = tf_image_loader(out_size = intermediate_size,
+                               horizontal_flip=horizontal_flip,
+                               vertical_flip=vertical_flip,
                                random_brightness = random_brightness,
                                random_contrast = random_contrast,
                                random_saturation = random_saturation,
@@ -229,19 +229,19 @@ def tf_augmentor(out_size,
 # In[35]:
 
 print("flow_from_dataframe")
-def flow_from_dataframe(idg, 
-                        in_df, 
+def flow_from_dataframe(idg,
+                        in_df,
                         path_col,
-                        y_col, 
-                        shuffle = True, 
+                        y_col,
+                        shuffle = True,
                         color_mode = 'rgb'):
-    files_ds = tf.data.Dataset.from_tensor_slices((in_df[path_col].values, 
+    files_ds = tf.data.Dataset.from_tensor_slices((in_df[path_col].values,
                                                    np.stack(in_df[y_col].values,0)))
     in_len = in_df[path_col].values.shape[0]
     while True:
         if shuffle:
             files_ds = files_ds.shuffle(in_len) # shuffle the whole dataset
-        
+
         #next_batch = idg(files_ds).repeat().make_one_shot_iterator().get_next()
         #next_batch = tf.compat.v1.data.make_one_shot_iterator(idg(files_ds).repeat()).get_next()
         #print(next_batch)
@@ -260,12 +260,12 @@ def flow_from_dataframe(idg,
 
 #batch_size = 48
 batch_size = 48
-core_idg = tf_augmentor(out_size = IMG_SIZE, 
-                        color_mode = 'rgb', 
+core_idg = tf_augmentor(out_size = IMG_SIZE,
+                        color_mode = 'rgb',
                         vertical_flip = True,
                         crop_probability=0.0, # crop doesn't work yet
                         batch_size = batch_size)
-valid_idg = tf_augmentor(out_size = IMG_SIZE, color_mode = 'rgb', 
+valid_idg = tf_augmentor(out_size = IMG_SIZE, color_mode = 'rgb',
                         crop_probability=0.0,
                         horizontal_flip = False,
                         vertical_flip = False,
@@ -276,11 +276,11 @@ valid_idg = tf_augmentor(out_size = IMG_SIZE, color_mode = 'rgb',
                         rotation_range = 0,
                         batch_size = batch_size)
 
-train_gen = flow_from_dataframe(core_idg, train_df, 
+train_gen = flow_from_dataframe(core_idg, train_df,
                             path_col = 'path',
                             y_col = 'level_cat')
 
-valid_gen = flow_from_dataframe(valid_idg, valid_df, 
+valid_gen = flow_from_dataframe(valid_idg, valid_df,
                             path_col = 'path',
                             y_col = 'level_cat') # we can use much larger batches for evaluation
 
@@ -339,13 +339,13 @@ bn_features = BatchNormalization()(pt_features)
 attn_layer = Conv2D(64, kernel_size = (1,1), padding = 'same', activation = 'relu')(Dropout(0.5)(bn_features))
 attn_layer = Conv2D(16, kernel_size = (1,1), padding = 'same', activation = 'relu')(attn_layer)
 attn_layer = Conv2D(8, kernel_size = (1,1), padding = 'same', activation = 'relu')(attn_layer)
-attn_layer = Conv2D(1, 
-                    kernel_size = (1,1), 
-                    padding = 'valid', 
+attn_layer = Conv2D(1,
+                    kernel_size = (1,1),
+                    padding = 'valid',
                     activation = 'sigmoid')(attn_layer)
 # fan it out to all of the channels
 up_c2_w = np.ones((1, 1, 1, pt_depth))
-up_c2 = Conv2D(pt_depth, kernel_size = (1,1), padding = 'same', 
+up_c2 = Conv2D(pt_depth, kernel_size = (1,1), padding = 'same',
                activation = 'linear', use_bias = False, weights = [up_c2_w])
 up_c2.trainable = False
 attn_layer = up_c2(attn_layer)
@@ -381,12 +381,12 @@ print("#checkpoint#")
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler, EarlyStopping, ReduceLROnPlateau
 weight_path="{}_weights.best.hdf5".format('retina')
 
-checkpoint = ModelCheckpoint(weight_path, monitor='val_loss', verbose=1, 
+checkpoint = ModelCheckpoint(weight_path, monitor='val_loss', verbose=1,
                              save_best_only=True, mode='min', save_weights_only = True)
 
 reduceLROnPlat = ReduceLROnPlateau(monitor='val_loss', factor=0.8, patience=3, verbose=1, mode='auto', epsilon=0.0001, cooldown=5, min_lr=0.0001)
-early = EarlyStopping(monitor="val_loss", 
-                      mode="min", 
+early = EarlyStopping(monitor="val_loss",
+                      mode="min",
                       patience=6) # probably needs to be more patient, but kaggle time is limited
 callbacks_list = [checkpoint, early, reduceLROnPlat]
 
@@ -436,7 +436,7 @@ retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
                     #validation_data = valid_gen,
                     #validation_steps = valid_df.shape[0]//batch_size,
-                    epochs = 20,
+                    epochs = 100,
                     callbacks = callbacks_list,
                     workers = 0, # tf-generators are not thread-safe
                     use_multiprocessing=False,
@@ -447,7 +447,7 @@ retina_model.fit(train_gen,
 print("# load the best version of the model")
 # load the best version of the model
 #retina_model.load_weights(weight_path)
-retina_model.save('model/full_retina_model233.h5')
+retina_model.save('model/full_retina_model100.h5')
 print("# save the best version of the model")
 
 
@@ -567,5 +567,13 @@ print("# save the best version of the model")
 # In[ ]:
 
 
-
-
+'''
+Exception ignored in: <function _RandomSeedGeneratorDeleter.__del__ at 0x7f699cd78160>
+Traceback (most recent call last):
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 3546, in __del__
+AttributeError: 'NoneType' object has no attribute 'device'
+Exception ignored in: <function _RandomSeedGeneratorDeleter.__del__ at 0x7f699cd78160>
+Traceback (most recent call last):
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 3546, in __del__
+AttributeError: 'NoneType' object has no attribute 'device'
+'''

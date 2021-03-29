@@ -1,0 +1,73 @@
+  all_reads = []
+  all_writes = []
+  while op_queue:
+    reads, writes = _process(op_queue, seen_ops)
+    all_reads.extend(reads)
+    all_writes.extend(writes)
+
+  return all_reads, all_writes
+
+
+@auto_control_deps.register_acd_resource_resolver
+def _resource_resolver(op, resource_reads, resource_writes):
+  """Updates resource inputs for tf.data ops with indirect dependencies."""
+
+  updated = False
+  if op.type in [
+      "DatasetToSingleElement", "DatasetToTFRecord", "ReduceDataset"
+  ]:
+    reads, writes = _collect_resource_inputs(op)
+    for inp in reads:
+      if inp not in resource_reads:
+        updated = True
+        resource_reads.add(inp)
+    for inp in writes:
+      if inp not in resource_writes:
+        updated = True
+        resource_writes.add(inp)
+
+  if op.type in [
+      "IteratorGetNext", "IteratorGetNextSync", "IteratorGetNextAsOptional"
+  ]:
+    iterator_resource = op.inputs[0]
+    make_iterator_ops = [
+        op for op in iterator_resource.consumers() if op.type == "MakeIterator"
+    ]
+
+    if len(make_iterator_ops) == 1:
+      reads, writes = _collect_resource_inputs(make_iterator_ops[0])
+      for inp in reads:
+        if inp not in resource_reads:
+          updated = True
+          resource_reads.add(inp)
+      for inp in writes:
+        if inp not in resource_writes:
+          updated = True
+          resource_writes.add(inp)
+
+  return updated
+
+  class _RandomSeedGeneratorDeleter(object):
+  """An object which cleans up an anonymous random seed generator resource.
+
+  An alternative to defining a __del__ method on an object. Even if the parent
+  object is part of a reference cycle, the cycle will be collectable.
+  """
+
+  def __init__(self, handle, device, deleter):
+    self._deleter = deleter
+    self._handle = handle
+    self._device = device
+    self._eager_mode = context.executing_eagerly()
+
+  def __del__(self):
+      with ops.device(self._device):
+      # Make sure the resource is deleted in the same mode as it was created in.
+      if self._eager_mode:
+        with context.eager_mode():
+          gen_dataset_ops.delete_random_seed_generator(
+              handle=self._handle, deleter=self._deleter)
+      else:
+        with context.graph_mode():
+          gen_dataset_ops.delete_random_seed_generator(
+              handle=self._handle, deleter=self._deleter)
