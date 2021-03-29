@@ -7,3 +7,4 @@
 15/15 [==============================] - 318s 21s/step - loss: 0.9447 - categorical_accuracy: 0.6181 - top_2_accuracy: 0.8514 - lr: 0.0010
 15/15 [==============================] - 319s 21s/step - loss: 0.4378 - categorical_accuracy: 0.8278 - top_2_accuracy: 0.9528 - lr: 0.0010
 15/15 [==============================] - 315s 21s/step - loss: 0.4902 - categorical_accuracy: 0.8042 - top_2_accuracy: 0.9417 - lr: 0.0010
+15/15 [==============================] - 319s 21s/step - loss: 0.7842 - categorical_accuracy: 0.6958 - top_2_accuracy: 0.8889 - lr: 0.0010
