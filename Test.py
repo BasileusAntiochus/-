@@ -448,8 +448,8 @@ print("retina_model.fit_generator")
 
 # retina_model.load_weights('full_retina_model.h5')
 # 3
-# retina_model.load_weights('full_retina_model1.h5')
-retina_model = tf.keras.models.load_model('full_retina_model.h5')
+retina_model.load_weights('full_retina_model1.h5')
+#retina_model = tf.keras.models.load_model('full_retina_model.h5')
 
 t_x, t_y = next(train_gen)
 loss, acc = retina_model.evaluate(t_x, t_y, verbose=2)
