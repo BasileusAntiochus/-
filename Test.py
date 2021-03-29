@@ -451,12 +451,12 @@ print("retina_model.fit_generator")
 retina_model.load_weights('full_retina_model1.h5')
 #retina_model = tf.keras.models.load_model('full_retina_model.h5')
 
-t_x, t_y = next(train_gen)
-#loss, acc =
-retina_model.evaluate(t_x, t_y, verbose=2)
-#print('Restored model, accuracy: {:5.2f}%'.format(100*acc))
-
-print(retina_model.predict(t_x).shape)
+# t_x, t_y = next(train_gen)
+# #loss, acc =
+# retina_model.evaluate(t_x, t_y, verbose=2)
+# #print('Restored model, accuracy: {:5.2f}%'.format(100*acc))
+#
+# print(retina_model.predict(t_x).shape)
 
 # In[41]:
 
@@ -471,8 +471,9 @@ vbatch_count = (valid_df.shape[0]//batch_size-1)
 out_size = vbatch_count*batch_size
 test_X = np.zeros((out_size,)+t_x.shape[1:], dtype = np.float32)
 test_Y = np.zeros((out_size,)+t_y.shape[1:], dtype = np.float32)
-for i, (c_x, c_y) in zip(tqdm_notebook(range(vbatch_count)),
+for i, (c_x, c_y) in zip(tqdm.notebook(range(vbatch_count)),
                          valid_gen):
+    print(i)
     j = i*batch_size
     test_X[j:(j+c_x.shape[0])] = c_x
     test_Y[j:(j+c_x.shape[0])] = c_y
