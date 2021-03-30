@@ -258,8 +258,8 @@ def flow_from_dataframe(idg,
 # In[36]:
 
 
-#batch_size = 48
-batch_size = 192
+batch_size = 48
+#batch_size = 192
 core_idg = tf_augmentor(out_size = IMG_SIZE,
                         color_mode = 'rgb',
                         vertical_flip = True,
@@ -436,7 +436,7 @@ retina_model.load_weights('full_retina_model1.h5')
 retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
                     # validation_data = valid_gen,
-                    # validation_steps = valid_df.shape[0]//batch_size,
+                    # validation_steps = valid_df.shapvime[0]//batch_size,
                     epochs = 100,
                     callbacks = callbacks_list,
                     workers = 0, # tf-generators are not thread-safe
