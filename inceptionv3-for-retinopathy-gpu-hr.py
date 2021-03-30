@@ -291,7 +291,8 @@ valid_gen = flow_from_dataframe(valid_idg, valid_df,
 # In[37]:
 
 
-# t_x, t_y = next(valid_gen)
+t_x, t_y = next(valid_gen)
+print("next valid_gen")
 # fig, m_axs = plt.subplots(2, 4, figsize = (16, 8))
 # for (c_x, c_y, c_ax) in zip(t_x, t_y, m_axs.flatten()):
 #     c_ax.imshow(np.clip(c_x*127+127, 0, 255).astype(np.uint8))
