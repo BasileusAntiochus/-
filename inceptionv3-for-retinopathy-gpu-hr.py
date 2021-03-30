@@ -434,9 +434,9 @@ retina_model.load_weights('full_retina_model1.h5')
 #retina_model = tf.keras.models.load_model('full_retina_model.h5')
 retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
-                    #validation_data = valid_gen,
-                    #validation_steps = valid_df.shape[0]//batch_size,
-                    epochs = 100,
+                    validation_data = valid_gen,
+                    validation_steps = valid_df.shape[0]//batch_size,
+                    epochs = 1,
                     callbacks = callbacks_list,
                     workers = 0, # tf-generators are not thread-safe
                     use_multiprocessing=False,
@@ -447,7 +447,7 @@ retina_model.fit(train_gen,
 print("# load the best version of the model")
 # load the best version of the model
 #retina_model.load_weights(weight_path)
-retina_model.save_weights('model/full_retina_model100.h5')
+retina_model.save_weights('model/full_retina_model2333.h5')
 print("# save the best version of the model")
 
 
