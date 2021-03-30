@@ -442,7 +442,7 @@ retina_model.fit(train_gen,
                     workers = 0, # tf-generators are not thread-safe
                     use_multiprocessing=False,
                     max_queue_size = 0,
-                    verbose = 1
+                    verbose = 2
                     )
 # In[40]:
 

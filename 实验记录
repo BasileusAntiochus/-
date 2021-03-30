@@ -64,3 +64,36 @@ IndentationError: expected an indented block
 Traceback (most recent call last):
   File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/data/ops/dataset_ops.py", line 3546, in __del__
 AttributeError: 'NoneType' object has no attribute 'device'
+
+//错误：
+3/3 [==============================] - ETA: 0s - loss: 1.4199 - categorical_accuracy: 0.4878 - top_2_accuracy: 0.7309 ^C
+Traceback (most recent call last):
+  File "inceptionv3-for-retinopathy-gpu-hr.py", line 435, in <module>
+    retina_model.fit(train_gen,
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/keras/engine/training.py", line 66, in _method_wrapper
+    return method(self, *args, **kwargs)
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/keras/engine/training.py", line 862, in fit
+    val_logs = self.evaluate(
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/keras/engine/training.py", line 66, in _method_wrapper
+    return method(self, *args, **kwargs)
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/keras/engine/training.py", line 1081, in evaluate
+    tmp_logs = test_function(iterator)
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/eager/def_function.py", line 580, in __call__
+    result = self._call(*args, **kwds)
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/eager/def_function.py", line 618, in _call
+    results = self._stateful_fn(*args, **kwds)
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/eager/function.py", line 2420, in __call__
+    return graph_function._filtered_call(args, kwargs)  # pylint: disable=protected-access
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/eager/function.py", line 1661, in _filtered_call
+    return self._call_flat(
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/eager/function.py", line 1745, in _call_flat
+    return self._build_call_outputs(self._inference_function.call(
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/eager/function.py", line 593, in call
+    outputs = execute.execute(
+  File "/home/xh/anaconda3/lib/python3.8/site-packages/tensorflow/python/eager/execute.py", line 59, in quick_execute
+    tensors = pywrap_tfe.TFE_Py_Execute(ctx._handle, device_name, op_name,
+KeyboardInterrupt
+2021-03-30 13:35:55.646471: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Failed precondition: Python interpreter state is not initialized. The process may be terminated.
+	 [[{{node PyFunc}}]]
+2021-03-30 13:35:55.646793: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Failed precondition: Python interpreter state is not initialized. The process may be terminated.
+	 [[{{node PyFunc}}]]
