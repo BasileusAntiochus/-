@@ -446,7 +446,7 @@ print("retina_model.fit_generator")
 #
 # retina_model.load_weights(weight_path)
 
-retina_model.load_weights('model/full_retina_model.h5')
+retina_model.load_weights('model/retina_weights.best.hdf5')
 # 3
 #retina_model.load_weights('model/full_retina_model100.h5')
 #retina_model = tf.keras.models.load_model('full_retina_model.h5')
