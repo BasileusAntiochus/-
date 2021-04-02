@@ -431,8 +431,8 @@ print("retina_model.fit_generator")
 
 #retina_model.load_weights('full_retina_model.h5')
 #3
-retina_model.load_weights('model/full_retina_model100.h5')
-#retina_model = tf.keras.models.load_model('full_retina_model.h5')
+#retina_model.load_weights('model/full_retina_model100.h5')
+retina_model = tf.keras.models.load_model('model/full_retina_model.h5', custom_objects={'top_2_accuracy': top_2_accuracy)
 retina_model.fit(train_gen,
                     steps_per_epoch = train_df.shape[0]//batch_size,
                     # validation_data = valid_gen,
