@@ -97,3 +97,19 @@ KeyboardInterrupt
 	 [[{{node PyFunc}}]]
 2021-03-30 13:35:55.646793: W tensorflow/core/kernels/data/generator_dataset_op.cc:103] Error occurred when finalizing GeneratorDataset iterator: Failed precondition: Python interpreter state is not initialized. The process may be terminated.
 	 [[{{node PyFunc}}]]
+
+
+20210401
+299/299 [==============================] - 530s 2s/step
+Accuracy on Test Data: 0.34%
+              precision    recall  f1-score   support
+
+           0       0.82      0.35      0.49      6627
+           1       0.11      0.27      0.16       882
+           2       0.17      0.28      0.21      1557
+           3       0.11      0.60      0.18       260
+           4       0.23      0.55      0.32       226
+
+    accuracy                           0.34      9552
+   macro avg       0.29      0.41      0.27      9552
+weighted avg       0.61      0.34      0.40      9552
